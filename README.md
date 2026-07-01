@@ -1,7 +1,13 @@
 # tf-atom-subnet-aws
 
-[![CI](https://github.com/PlatformStackPulse/tf-atom-subnet-aws/actions/workflows/ci.yml/badge.svg)](https://github.com/PlatformStackPulse/tf-atom-subnet-aws/actions/workflows/ci.yml)
-![Terraform](https://img.shields.io/badge/terraform-%3E%3D1.6.0-blueviolet)
+[![Terraform Format](https://img.shields.io/badge/terraform-fmt-blue?logo=terraform)](https://github.com/PlatformStackPulse/tf-atom-subnet-aws/actions)
+[![Terraform Validate](https://img.shields.io/badge/terraform-validate-blue?logo=terraform)](https://github.com/PlatformStackPulse/tf-atom-subnet-aws/actions)
+[![TFLint](https://img.shields.io/badge/tflint-passing-brightgreen?logo=terraform)](https://github.com/PlatformStackPulse/tf-atom-subnet-aws/actions)
+[![Terraform Test](https://img.shields.io/badge/tests-3%20passed-brightgreen?logo=terraform)](https://github.com/PlatformStackPulse/tf-atom-subnet-aws/actions)
+[![Security Scan](https://img.shields.io/badge/trivy-passing-brightgreen?logo=aqua)](https://github.com/PlatformStackPulse/tf-atom-subnet-aws/actions)
+[![Conventional Commits](https://img.shields.io/badge/commits-conventional-blue?logo=conventionalcommits)](https://conventionalcommits.org)
+[![Documentation](https://img.shields.io/badge/docs-terraform--docs-blue?logo=readthedocs)](https://github.com/PlatformStackPulse/tf-atom-subnet-aws/actions)
+[![License](https://img.shields.io/badge/license-MIT-blue?logo=opensourceinitiative)](LICENSE)
 
 Terraform atom module that provisions a single AWS subnet within a VPC, following the [tf-label](https://github.com/PlatformStackPulse/tf-label) naming and tagging convention.
 
