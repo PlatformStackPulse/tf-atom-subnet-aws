@@ -3,9 +3,37 @@
 [![CI](https://github.com/PlatformStackPulse/tf-atom-subnet-aws/actions/workflows/ci.yml/badge.svg)](https://github.com/PlatformStackPulse/tf-atom-subnet-aws/actions/workflows/ci.yml)
 ![Terraform](https://img.shields.io/badge/terraform-%3E%3D1.6.0-blueviolet)
 
-## Purpose
+Terraform atom module that provisions a single AWS subnet within a VPC, following the [tf-label](https://github.com/PlatformStackPulse/tf-label) naming and tagging convention.
 
-Terraform atom: AWS Subnet - creates a subnet within a VPC.
+## Features
+
+- Creates one `aws_subnet` inside a target VPC with an explicit CIDR block and availability zone.
+- Consistent naming and tagging via the tf-label `context` interface — the subnet `Name` tag is set to the generated tf-label `id`.
+- Optional public-IP-on-launch behaviour via `map_public_ip_on_launch`.
+- Fully toggleable through the `enabled` flag: when `enabled = false`, no resources are created and all resource outputs are `null`.
+- Input validation on `vpc_id`, `cidr_block` (valid CIDR notation), and `availability_zone`.
+- Exposes the subnet `id`, `arn`, `cidr_block`, and `availability_zone` as outputs for downstream composition.
+
+## Usage
+
+```hcl
+module "subnet" {
+  source = "git::https://github.com/PlatformStackPulse/tf-atom-subnet-aws.git?ref=v1.0.0"
+
+  # tf-label context
+  namespace = "eg"
+  stage     = "prod"
+  name      = "app"
+
+  # required subnet inputs
+  vpc_id            = "vpc-0123456789abcdef0"
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = "us-east-1a"
+
+  # optional
+  map_public_ip_on_launch = false
+}
+```
 
 ## Module Documentation
 
@@ -71,3 +99,22 @@ Terraform atom: AWS Subnet - creates a subnet within a VPC.
 | <a name="output_enabled"></a> [enabled](#output\_enabled) | Whether the module is enabled |
 | <a name="output_id"></a> [id](#output\_id) | ID of the subnet |
 <!-- END_TF_DOCS -->
+
+## Tests
+
+Unit tests live in [`tests/unit/`](tests/unit/) and use Terraform's native test framework with a
+mocked AWS provider (no real AWS calls, no credentials required). They assert on plan-known values
+only — the tf-label `id`, resource counts, input pass-throughs, and the `enabled` flag — so they run
+fast and deterministically.
+
+```bash
+# Unit tests (mocked provider, no credentials)
+terraform init -backend=false
+terraform test -test-directory=tests/unit
+
+# or via the Makefile
+make test-unit
+```
+
+Integration tests (which provision real infrastructure and require AWS credentials) live in
+`tests/integration/` and run with `terraform test -test-directory=tests/integration` (`make test-integration`).
